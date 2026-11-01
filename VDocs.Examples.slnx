@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/GettingStarted/">
+    <Project Path="GettingStarted/HelloWorld/HelloWorld.csproj" />
+  </Folder>
+  <Folder Name="/Pdf/">
+    <Project Path="Pdf/GeneratePdf/GeneratePdf.csproj" />
+  </Folder>
+</Solution>

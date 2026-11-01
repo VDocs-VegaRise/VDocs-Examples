@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+*.user
+output/
+
+# License files are personal; never commit them.
+*.lic

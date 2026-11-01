@@ -1,0 +1,48 @@
+<Project>
+
+  <!--
+    Shared settings for every example project.
+
+    How VDocs is referenced:
+      - By default the examples use the published NuGet package (version below).
+      - When the VDocs source repo is checked out next to this one (../VDocs),
+        the examples build against the source instead, so API changes are caught
+        before a release. Force either mode with -p:UseLocalVDocs=true|false.
+  -->
+
+  <PropertyGroup>
+    <VDocsPackageVersion>2026.10.2</VDocsPackageVersion>
+    <VDocsSourceProject>$(MSBuildThisFileDirectory)..\VDocs\lib\VDocs\VDocs.csproj</VDocsSourceProject>
+    <UseLocalVDocs Condition="'$(UseLocalVDocs)' == '' and Exists('$(VDocsSourceProject)')">true</UseLocalVDocs>
+    <UseLocalVDocs Condition="'$(UseLocalVDocs)' == ''">false</UseLocalVDocs>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <!--
+      A VDocs license is bound to the name of the running application.
+      All examples share one assembly name so a single free trial license,
+      created for the project name "VDocs.Examples", works for every example.
+    -->
+    <AssemblyName>VDocs.Examples</AssemblyName>
+    <RootNamespace>Examples</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(UseLocalVDocs)' == 'true'">
+    <ProjectReference Include="$(VDocsSourceProject)" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UseLocalVDocs)' != 'true'">
+    <PackageReference Include="VDocs" Version="$(VDocsPackageVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Shared\*.cs" Link="Shared\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+</Project>
