@@ -1,8 +1,33 @@
 <Solution>
+  <Folder Name="/Conversion/">
+    <Project Path="Conversion/ConvertAndExport/ConvertAndExport.csproj" />
+  </Folder>
+  <Folder Name="/Formatting/">
+    <Project Path="Formatting/StyledText/StyledText.csproj" />
+  </Folder>
   <Folder Name="/GettingStarted/">
     <Project Path="GettingStarted/HelloWorld/HelloWorld.csproj" />
   </Folder>
+  <Folder Name="/Images/">
+    <Project Path="Images/ProductCatalogue/ProductCatalogue.csproj" />
+  </Folder>
+  <Folder Name="/Invoices/">
+    <Project Path="Invoices/InvoiceGenerator/InvoiceGenerator.csproj" />
+  </Folder>
+  <Folder Name="/MailMerge/">
+    <Project Path="MailMerge/BulkMerge/BulkMerge.csproj" />
+    <Project Path="MailMerge/MergeLetter/MergeLetter.csproj" />
+  </Folder>
   <Folder Name="/Pdf/">
     <Project Path="Pdf/GeneratePdf/GeneratePdf.csproj" />
+  </Folder>
+  <Folder Name="/Reports/">
+    <Project Path="Reports/QuarterlyReport/QuarterlyReport.csproj" />
+  </Folder>
+  <Folder Name="/Tables/">
+    <Project Path="Tables/EmployeeDirectory/EmployeeDirectory.csproj" />
+  </Folder>
+  <Folder Name="/Word/">
+    <Project Path="Word/WordWithoutOpenXml/WordWithoutOpenXml.csproj" />
   </Folder>
 </Solution>

@@ -6,8 +6,21 @@ Each folder is a small console project that builds one document and writes it to
 
 | Example | What it shows |
 |---|---|
-| [GettingStarted/HelloWorld](GettingStarted/HelloWorld) | The smallest possible document |
+| [GettingStarted/HelloWorld](GettingStarted/HelloWorld) | A styled heading and a paragraph, saved as Word, PDF and HTML |
+| [Formatting/StyledText](Formatting/StyledText) | Bold, italic and coloured text runs in one paragraph |
+| [Reports/QuarterlyReport](Reports/QuarterlyReport) | Headings with outline levels |
+| [Tables/EmployeeDirectory](Tables/EmployeeDirectory) | A table built cell by cell, and one built from a list of records |
+| [Images/ProductCatalogue](Images/ProductCatalogue) | Adding and sizing an image |
+| [Invoices/InvoiceGenerator](Invoices/InvoiceGenerator) | A complete invoice: logo header, styled table, totals, footer |
+| [MailMerge/MergeLetter](MailMerge/MergeLetter) | Filling `{{Placeholders}}` in a Word template |
+| [MailMerge/BulkMerge](MailMerge/BulkMerge) | One PDF per recipient from the same template |
+| [Conversion/ConvertAndExport](Conversion/ConvertAndExport) | Opening a Word file and exporting it to Word, PDF, HTML and a stream |
 | [Pdf/GeneratePdf](Pdf/GeneratePdf) | Paragraphs, a table, and saving as PDF, Word and HTML |
+| [Word/WordWithoutOpenXml](Word/WordWithoutOpenXml) | Reusable text styles and a quick invoice table |
+
+Input files (images, templates) live in [Assets](Assets).
+
+To build and run every example and check it produced output: `scripts/run-all.sh`.
 
 ## Running an example
 

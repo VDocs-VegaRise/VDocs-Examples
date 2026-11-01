@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+  workflow_dispatch:
+
+jobs:
+  # develop: build and run every example against the VDocs source (the next release).
+  # The VDocs repository is private, so this needs a read-only token in the
+  # VDOCS_SOURCE_TOKEN secret. Without it the job is skipped with a warning;
+  # the VDocs repository's own CI runs the same check on every VDocs change.
+  source:
+    name: Examples vs VDocs source
+    if: github.ref != 'refs/heads/main' && github.base_ref != 'main'
+    runs-on: ubuntu-latest
+    env:
+      VDOCS_SOURCE_TOKEN: ${{ secrets.VDOCS_SOURCE_TOKEN }}
+    steps:
+      - name: Check for source token
+        id: token
+        run: |
+          if [ -z "$VDOCS_SOURCE_TOKEN" ]; then
+            echo "::warning::VDOCS_SOURCE_TOKEN is not set; skipping the build against the VDocs source."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.token.outputs.present == 'true'
+        with:
+          path: VDocs-Examples
+
+      - uses: actions/checkout@v4
+        if: steps.token.outputs.present == 'true'
+        with:
+          repository: farhadkhaleghi/VDocs
+          ref: develop
+          token: ${{ secrets.VDOCS_SOURCE_TOKEN }}
+          path: VDocs
+
+      - uses: actions/setup-dotnet@v4
+        if: steps.token.outputs.present == 'true'
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build and run examples
+        if: steps.token.outputs.present == 'true'
+        run: VDocs-Examples/scripts/run-all.sh -p:UseLocalVDocs=true
+
+  # main: build against the published NuGet package, which is what people who
+  # download this repository get. Running the examples needs a license file for
+  # the project name "VDocs.Examples", stored in the VDOCS_LICENSE secret.
+  package:
+    name: Examples vs NuGet package
+    if: github.ref == 'refs/heads/main' || github.base_ref == 'main'
+    runs-on: ubuntu-latest
+    env:
+      VDOCS_LICENSE: ${{ secrets.VDOCS_LICENSE }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build
+        run: dotnet build VDocs.Examples.slnx -p:UseLocalVDocs=false
+
+      - name: Run examples
+        run: |
+          if [ -z "$VDOCS_LICENSE" ]; then
+            echo "::warning::VDOCS_LICENSE is not set; examples were built but not run."
+            exit 0
+          fi
+          printf '%s' "$VDOCS_LICENSE" > vdocs.lic
+          scripts/run-all.sh -p:UseLocalVDocs=false
